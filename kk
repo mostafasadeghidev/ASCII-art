@@ -5,7 +5,7 @@
 (async function() {
     try {
         // آدرس فایل GitHub شما
-        const githubUrl = 'https://raw.githubusercontent.com/mostafasadeghidev/ASCII-art/refs/heads/main/kabarza.js';
+        const githubUrl = 'https://raw.githubusercontent.com/mostafasadeghidev/ASCII-art/refs/heads/main/kk.js';
         
         // خواندن فایل از GitHub
         const response = await fetch(githubUrl);
