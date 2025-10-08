@@ -1,132 +1,98 @@
-// Kabarza ASCII Art Injector
-// Version: 1.0.0
-// Author: Kabarza Academy
+<?php
+/**
+ * Kabarza ASCII Art for WordPress
+ * Add this code to your theme's functions.php file
+ */
 
-(function() {
-    'use strict';
-    
-    // ASCII Art Content
-    const asciiArt = `
-<!--
-    
-    ██╗  ██╗ █████╗ ██████╗  █████╗ ██████╗ ███████╗ █████╗ 
-    ██║ ██╔╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚══███╔╝██╔══██╗
-    █████╔╝ ███████║██████╔╝███████║██████╔╝  ███╔╝ ███████║
-    ██╔═██╗ ██╔══██║██╔══██╗██╔══██║██╔══██╗ ███╔╝  ██╔══██║
-    ██║  ██╗██║  ██║██████╔╝██║  ██║██║  ██║███████╗██║  ██║
-    ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
-                                                            
-                        ACADEMY
-    
-    🎓 Welcome to Kabarza Academy!
-    👨‍💻 If you're reading this, you're a curious developer!
-    🚀 Join us at: https://kabarza.academy
-    
-    -->`;
+// Method 1: Enqueue JavaScript file from theme directory
+function kabarza_ascii_enqueue_script() {
+    // Enqueue the JavaScript file
+    wp_enqueue_script(
+        'kabarza-ascii',                                    // Handle name
+        get_template_directory_uri() . '/js/kabarza-ascii.js', // File path
+        array(),                                            // Dependencies
+        '1.0.0',                                           // Version
+        false                                              // Load in head (not footer)
+    );
+}
+add_action('wp_enqueue_scripts', 'kabarza_ascii_enqueue_script');
 
-    const consoleArt = `
+// Method 2: Add inline script directly to head
+function kabarza_ascii_inline_script() {
+    ?>
+    <!--
+        
+        ██╗  ██╗ █████╗ ██████╗  █████╗ ██████╗ ███████╗ █████╗ 
+        ██║ ██╔╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚══███╔╝██╔══██╗
+        █████╔╝ ███████║██████╔╝███████║██████╔╝  ███╔╝ ███████║
+        ██╔═██╗ ██╔══██║██╔══██╗██╔══██║██╔══██╗ ███╔╝  ██╔══██║
+        ██║  ██╗██║  ██║██████╔╝██║  ██║██║  ██║███████╗██║  ██║
+        ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+                                                                
+        🎓 Welcome to Kabarza Agency!
+        👨‍💻 If you're reading this, you're a curious developer!
+        🚀 Join us at: https://kabarza.com
+        
+        -->
+    
+    <script>
+    (function(){
+        console.log(`
 ██╗  ██╗ █████╗ ██████╗  █████╗ ██████╗ ███████╗ █████╗ 
 ██║ ██╔╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚══███╔╝██╔══██╗
 █████╔╝ ███████║██████╔╝███████║██████╔╝  ███╔╝ ███████║
 ██╔═██╗ ██╔══██║██╔══██╗██╔══██║██╔══██╗ ███╔╝  ██╔══██║
 ██║  ██╗██║  ██║██████╔╝██║  ██║██║  ██║███████╗██║  ██║
 ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
-                                                        
-                    ACADEMY
-                    
-🎉 Welcome to Kabarza Academy!
+
+🎉 Welcome to Kabarza Agency!
 👨‍💻 You opened the console - you're our kind of person!
-🚀 Check out our courses at: https://kabarza.academy
-💡 Type "kabarza()" for a surprise!`;
+🚀 Check out our courses at: https://kabarza.com
+        `);
+        
+        window.kabarza = function() {
+            alert('🎉 You found the Kabarza secret! Welcome to our agency!');
+            console.log('🚀 Visit us at: https://kabarza.com');
+        };
+        
+        console.log('💡 Type "kabarza()" in console for a surprise!');
+    })();
+    </script>
+    <?php
+}
+add_action('wp_head', 'kabarza_ascii_inline_script');
 
-    // Function to inject ASCII art into HTML head
-    function injectAsciiToHead() {
-        try {
-            // Create comment node with ASCII art
-            const comment = document.createComment(asciiArt);
-            
-            // Insert at the beginning of head
-            const head = document.head || document.getElementsByTagName('head')[0];
-            if (head && head.firstChild) {
-                head.insertBefore(comment, head.firstChild);
-            } else if (head) {
-                head.appendChild(comment);
-            }
-            
-            console.log('✅ Kabarza ASCII art injected successfully!');
-        } catch (error) {
-            console.error('❌ Error injecting ASCII art:', error);
-        }
+// Method 3: Only enqueue file (without inline script)
+function kabarza_ascii_file_only() {
+    wp_enqueue_script(
+        'kabarza-ascii-file',
+        get_template_directory_uri() . '/assets/js/kabarza-ascii.js',
+        array(),
+        '1.0.0',
+        false
+    );
+}
+// Uncomment the line below to use Method 3
+// add_action('wp_enqueue_scripts', 'kabarza_ascii_file_only');
+
+// Method 4: Add to specific pages only
+function kabarza_ascii_specific_pages() {
+    // Only on homepage
+    if (is_front_page()) {
+        kabarza_ascii_inline_script();
     }
-
-    // Function to show console message
-    function showConsoleMessage() {
-        try {
-            console.log(consoleArt);
-            
-            // Add hidden function for curious developers
-            window.kabarza = function() {
-                alert('🎉 You found the Kabarza secret! Welcome to our academy!');
-                console.log('🚀 Visit us at: https://kabarza.academy');
-            };
-            
-        } catch (error) {
-            console.error('❌ Error showing console message:', error);
-        }
+    
+    // Only on specific page
+    if (is_page('about')) {
+        kabarza_ascii_inline_script();
     }
-
-    // Function to add footer ASCII art
-    function injectAsciiToFooter() {
-        try {
-            const footerAscii = `
-<!--
-
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║    ██╗  ██╗ █████╗ ██████╗  █████╗ ██████╗ ███████╗ █████╗   ║
-║    ██║ ██╔╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚══███╔╝██╔══██╗  ║
-║    █████╔╝ ███████║██████╔╝███████║██████╔╝  ███╔╝ ███████║  ║
-║    ██╔═██╗ ██╔══██║██╔══██╗██╔══██║██╔══██╗ ███╔╝  ██╔══██║  ║
-║    ██║  ██╗██║  ██║██████╔╝██║  ██║██║  ██║███████╗██║  ██║  ║
-║    ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝  ║
-║                                                              ║
-║                        ACADEMY                               ║
-║                                                              ║
-║    🎓 Thanks for checking our source code!                   ║
-║    💡 We appreciate developers who dig deeper                ║
-║    🚀 Visit us: https://kabarza.academy                      ║
-║    📧 Contact: info@kabarza.academy                          ║
-║                                                              ║
-║    Made with ❤️ by Kabarza Academy Team                      ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-
--->`;
-            
-            const comment = document.createComment(footerAscii);
-            document.body.appendChild(comment);
-            
-        } catch (error) {
-            console.error('❌ Error injecting footer ASCII:', error);
-        }
+    
+    // Only on posts
+    if (is_single()) {
+        kabarza_ascii_inline_script();
     }
+}
+// Uncomment the line below to use Method 4
+// add_action('wp_head', 'kabarza_ascii_specific_pages');
 
-    // Initialize when DOM is ready
-    function init() {
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-                injectAsciiToHead();
-                showConsoleMessage();
-                injectAsciiToFooter();
-            });
-        } else {
-            injectAsciiToHead();
-            showConsoleMessage();
-            injectAsciiToFooter();
-        }
-    }
-
-    // Start the magic!
-    init();
-
-})();
+?>
